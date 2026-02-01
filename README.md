@@ -11,7 +11,6 @@
     - 🔴 Red: Overdue
     - 🟠 Orange: Due within 3 days
     - 🟡 Yellow: Due within 7 days
-    - 🟢 Green: Compelted/Safe
 - **Offline Support**: Installs as a native app, caches resources via Service Worker, and stores data locally.
 - **Data Persistence**: Uses IndexedDB for reliable local storage of tasks.
 
