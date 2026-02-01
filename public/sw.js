@@ -7,6 +7,7 @@ const ASSETS_TO_CACHE = [
 
 // Install Event: Cache core assets
 self.addEventListener('install', (event) => {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             console.log('Opened cache');
@@ -17,20 +18,7 @@ self.addEventListener('install', (event) => {
 
 // Fetch Event: Stale-while-revalidate or Cache First
 self.addEventListener('fetch', (event) => {
-    // Handle API requests separately (optional, but good for quotes)
-    if (event.request.url.includes('api.quotable.io')) {
-        event.respondWith(
-            fetch(event.request).catch(() => {
-                return new Response(JSON.stringify({
-                    content: "Offline Mode: Stay focused!",
-                    author: "System"
-                }), {
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            })
-        );
-        return;
-    }
+
 
     event.respondWith(
         caches.match(event.request).then((response) => {
@@ -62,6 +50,7 @@ self.addEventListener('fetch', (event) => {
 
 // Activate Event: Clean up old caches
 self.addEventListener('activate', (event) => {
+    self.clients.claim();
     const cacheWhitelist = [CACHE_NAME];
     event.waitUntil(
         caches.keys().then((cacheNames) => {
